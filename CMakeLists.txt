@@ -23,8 +23,23 @@
 #                                                                           #
 # ######################################################################### #
 
+cmake_minimum_required(VERSION 3.1)
+
+# ######################################################################### #
+
 # Project
-project(CeCe-cli CXX)
+project(CeCe-cli VERSION 0.6.0 LANGUAGES CXX)
+
+# C++11 standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_EXTENSIONS Off)
+set(CMAKE_CXX_STANDARD_REQUIRED On)
+set(CMAKE_POSITION_INDEPENDENT_CODE On)
+
+include_directories(
+    CeCe
+    ${CMAKE_CURRENT_BINARY_DIR}/CeCe
+)
 
 # ######################################################################### #
 
@@ -44,7 +59,7 @@ endif ()
 
 # Set some definitions
 add_definitions(
-    -DAPP_NAME="${APP_NAME}"
+    -DAPP_NAME="CeCe"
 )
 
 if (DEV_PLUGINS)
@@ -55,15 +70,17 @@ if (DEV_PLUGINS)
 endif ()
 
 if (CECE_RENDER_ENABLE)
-    find_package(GLFW REQUIRED)
-    include_directories(${GLFW_INCLUDE_DIR})
+    set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+    set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+    set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+    add_subdirectory(glfw)
 endif ()
 
-if (CONFIG_CLI_ENABLE_IMAGE_CAPTURE OR CONFIG_CLI_ENABLE_VIDEO_CAPTURE)
+if (CECE_ENABLE_IMAGE_CAPTURE OR CECE_ENABLE_VIDEO_CAPTURE)
     if (NOT CONFIG_RENDER_ENABLE)
         message(WARNING "Video/image capture requires rendering support")
-        set(CONFIG_CLI_ENABLE_IMAGE_CAPTURE Off)
-        set(CONFIG_CLI_ENABLE_VIDEO_CAPTURE Off)
+        set(CECE_ENABLE_IMAGE_CAPTURE Off)
+        set(CECE_ENABLE_VIDEO_CAPTURE Off)
     else ()
         message(STATUS "Video/image capture support")
 
@@ -75,17 +92,17 @@ if (CONFIG_CLI_ENABLE_IMAGE_CAPTURE OR CONFIG_CLI_ENABLE_VIDEO_CAPTURE)
             include_directories(${PNG_INCLUDE_DIRS})
         endif ()
 
-        if (CONFIG_CLI_ENABLE_IMAGE_CAPTURE)
-            add_definitions(-DCONFIG_CLI_ENABLE_IMAGE_CAPTURE=1)
+        if (CECE_ENABLE_IMAGE_CAPTURE)
+            add_definitions(-DCECE_ENABLE_IMAGE_CAPTURE=1)
         endif ()
 
-        if (CONFIG_CLI_ENABLE_VIDEO_CAPTURE)
-            add_definitions(-DCONFIG_CLI_ENABLE_VIDEO_CAPTURE=1)
+        if (CECE_ENABLE_VIDEO_CAPTURE)
+            add_definitions(-DCECE_ENABLE_VIDEO_CAPTURE=1)
         endif ()
     endif ()
 endif ()
 
-if (CONFIG_CLI_ENABLE_RENDER_THREAD)
+if (CECE_ENABLE_RENDER_THREAD)
     if (CONFIG_THREAD_SAFE)
         add_definitions(-DCECE_CLI_ENABLE_RENDER_THREAD)
     else ()
@@ -94,9 +111,6 @@ if (CONFIG_CLI_ENABLE_RENDER_THREAD)
 endif ()
 
 # ######################################################################### #
-
-set(CECE_CLI_ENABLE_IMAGE_CAPTURE ${CONFIG_CLI_ENABLE_IMAGE_CAPTURE})
-set(CECE_CLI_ENABLE_VIDEO_CAPTURE ${CONFIG_CLI_ENABLE_VIDEO_CAPTURE})
 
 # Sources
 set(SRCS
@@ -133,27 +147,12 @@ endif ()
 
 # ######################################################################### #
 
-set(MACOSX_BUNDLE_BUNDLE_NAME "${APP_NAME}-${PROJECT_NAME}")
-set(MACOSX_BUNDLE_BUNDLE_VERSION "${VERSION}")
-set(MACOSX_BUNDLE_LONG_VERSION_STRING "${VERSION}")
-set(MACOSX_BUNDLE_SHORT_VERSION_STRING "${VERSION}")
-set(MACOSX_BUNDLE_COPYRIGHT "Copyright (c) 2015 Georgiev Lab")
-set(MACOSX_BUNDLE_GUI_IDENTIFIER "cz.zcu.ccy.${APP_NAME}")
-set(MACOSX_BUNDLE_ICON_FILE "${APP_NAME}.icns")
-
-# ######################################################################### #
-
 # Create executable
 add_executable(${PROJECT_NAME}
     ${SRCS}
 )
 
 # ######################################################################### #
-
-# Use different name
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    OUTPUT_NAME "${CMAKE_PROJECT_NAME}-${PROJECT_NAME}"
-)
 
 if (APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "@loader_path/../lib;@loader_path/../plugins")
@@ -163,20 +162,13 @@ endif ()
 
 # Link libraries
 target_link_libraries(${PROJECT_NAME}
-    cece
+    CeCe
 )
 
-if (CONFIG_RENDER_ENABLE)
+if (CECE_RENDER_ENABLE)
     target_link_libraries(${PROJECT_NAME}
-        ${GLFW_LIBRARIES}
+        glfw
     )
-
-    if (UNIX AND NOT APPLE)
-        # In some cases the GLFW_LIBRARIES variable doesn't contains link to X11
-        target_link_libraries(${PROJECT_NAME}
-            -lX11
-        )
-    endif ()
 endif ()
 
 if (UNIX AND NOT APPLE)
@@ -185,7 +177,7 @@ if (UNIX AND NOT APPLE)
     )
 endif ()
 
-if (CONFIG_CLI_ENABLE_IMAGE_CAPTURE)
+if (CECE_ENABLE_IMAGE_CAPTURE)
     target_link_libraries(${PROJECT_NAME}
         ${PNG_LIBRARIES}
     )

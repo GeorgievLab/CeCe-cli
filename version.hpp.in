@@ -36,9 +36,9 @@
  * @brief Simulator version macro.
  */
 #define VERSION \
-    STR(@VERSION_MAJOR@) "." \
-    STR(@VERSION_MINOR@) "." \
-    STR(@VERSION_PATCH@) \
-    STR(@VERSION_SPECIAL@)
+    STR(@PROJECT_VERSION_MAJOR@) "." \
+    STR(@PROJECT_VERSION_MINOR@) "." \
+    STR(@PROJECT_VERSION_PATCH@) \
+    STR(@PROJECT_VERSION_SPECIAL@)
 
 /* ************************************************************************ */
