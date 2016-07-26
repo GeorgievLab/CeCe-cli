@@ -43,8 +43,13 @@ include_directories(
 
 # ######################################################################### #
 
-add_subdirectory(CeCe)
-add_subdirectory(plugins)
+if (NOT TARGET CeCe)
+    add_subdirectory(CeCe)
+endif ()
+
+if (NOT TARGET CeCe-plugins)
+    add_subdirectory(plugins)
+endif()
 
 # ######################################################################### #
 
