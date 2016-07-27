@@ -70,7 +70,7 @@ add_definitions(
 if (DEV_PLUGINS)
     # Directory is in build directory
     add_definitions(
-        -DDIR_PLUGINS="${CMAKE_BINARY_DIR}/${DIR_PLUGINS}"
+        -DDIR_PLUGINS="${CMAKE_BINARY_DIR}/plugins"
     )
 endif ()
 
@@ -78,11 +78,12 @@ if (CECE_RENDER_ENABLE)
     set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
     set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
     set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+    set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
     add_subdirectory(glfw)
 endif ()
 
 if (CECE_ENABLE_IMAGE_CAPTURE OR CECE_ENABLE_VIDEO_CAPTURE)
-    if (NOT CONFIG_RENDER_ENABLE)
+    if (NOT CECE_RENDER_ENABLE)
         message(WARNING "Video/image capture requires rendering support")
         set(CECE_ENABLE_IMAGE_CAPTURE Off)
         set(CECE_ENABLE_VIDEO_CAPTURE Off)
@@ -108,7 +109,7 @@ if (CECE_ENABLE_IMAGE_CAPTURE OR CECE_ENABLE_VIDEO_CAPTURE)
 endif ()
 
 if (CECE_ENABLE_RENDER_THREAD)
-    if (CONFIG_THREAD_SAFE)
+    if (CECE_THREAD_SAFE)
         add_definitions(-DCECE_CLI_ENABLE_RENDER_THREAD)
     else ()
         message(WARNING "No thread safe support, disabling CLI rendering thread")
