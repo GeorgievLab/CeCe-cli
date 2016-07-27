@@ -28,7 +28,7 @@ cmake_minimum_required(VERSION 3.1)
 # ######################################################################### #
 
 # Project
-project(CeCe-cli VERSION 0.6.0 LANGUAGES CXX)
+project(cece-cli VERSION 0.6.0 LANGUAGES CXX)
 
 # C++11 standard
 set(CMAKE_CXX_STANDARD 11)
@@ -43,11 +43,11 @@ include_directories(
 
 # ######################################################################### #
 
-if (NOT TARGET CeCe)
+if (NOT TARGET cece)
     add_subdirectory(CeCe)
 endif ()
 
-if (NOT TARGET CeCe-plugins)
+if (NOT TARGET cece-plugins)
     add_subdirectory(plugins)
 endif()
 
@@ -168,7 +168,7 @@ endif ()
 
 # Link libraries
 target_link_libraries(${PROJECT_NAME}
-    CeCe
+    cece
 )
 
 if (CECE_RENDER_ENABLE)
