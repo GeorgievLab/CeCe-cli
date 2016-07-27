@@ -172,7 +172,7 @@ target_link_libraries(${PROJECT_NAME}
 
 if (CECE_RENDER_ENABLE)
     target_link_libraries(${PROJECT_NAME}
-        glfw
+        glfw ${GLFW_LIBRARIES}
     )
 endif ()
 
