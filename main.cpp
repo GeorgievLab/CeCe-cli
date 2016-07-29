@@ -234,10 +234,13 @@ int main(int argc, char** argv)
     signal(SIGTERM, terminate_simulation);
     signal(SIGINT, terminate_simulation);
 
-#if ENABLE_MEASUREMENT
-    std::ofstream time_file("time.csv");
-    setMeasureTimeOutput(&time_file);
-#endif
+    std::ofstream time_file;
+
+    if (isMeasureTimeEnabled())
+    {
+        time_file.open("time.csv");
+        setMeasureTimeOutput(&time_file);
+    }
 
     try
     {
