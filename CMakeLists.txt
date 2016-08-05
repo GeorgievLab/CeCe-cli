@@ -28,27 +28,47 @@ cmake_minimum_required(VERSION 3.1)
 # ######################################################################### #
 
 # Project
-project(cece-cli VERSION 0.6.0 LANGUAGES CXX)
-
-# C++11 standard
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_EXTENSIONS Off)
-set(CMAKE_CXX_STANDARD_REQUIRED On)
-set(CMAKE_POSITION_INDEPENDENT_CODE On)
-
-include_directories(
-    CeCe
-    ${CMAKE_CURRENT_BINARY_DIR}/CeCe
+project(cece-cli
+    VERSION 0.6.0
+    LANGUAGES CXX
 )
 
 # ######################################################################### #
 
 if (NOT TARGET cece)
-    add_subdirectory(CeCe)
+    if (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/CeCe-core/CMakeLists.txt")
+        find_package(Git REQUIRED)
+        execute_process(
+            COMMAND ${GIT_EXECUTABLE} submodule update --init CeCe-core
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+    endif()
+
+    add_subdirectory(CeCe-core)
+
+    find_program(CCACHE_FOUND ccache)
+    if (CCACHE_FOUND)
+        set_property(DIRECTORY CeCe-core PROPERTY RULE_LAUNCH_COMPILE ccache)
+        set_property(DIRECTORY CeCe-core PROPERTY RULE_LAUNCH_LINK ccache)
+    endif()
 endif ()
 
 if (NOT TARGET cece-plugins)
-    add_subdirectory(plugins)
+    if (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/CeCe-plugins/CMakeLists.txt")
+        find_package(Git REQUIRED)
+        execute_process(
+            COMMAND ${GIT_EXECUTABLE} submodule update --init CeCe-plugins
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+    endif()
+
+    add_subdirectory(CeCe-plugins)
+
+    find_program(CCACHE_FOUND ccache)
+    if (CCACHE_FOUND)
+        set_property(DIRECTORY CeCe-plugins PROPERTY RULE_LAUNCH_COMPILE ccache)
+        set_property(DIRECTORY CeCe-plugins PROPERTY RULE_LAUNCH_LINK ccache)
+    endif()
 endif()
 
 # ######################################################################### #
@@ -61,18 +81,6 @@ if (CECE_RENDER_ENABLE)
 endif ()
 
 # ######################################################################### #
-
-# Set some definitions
-add_definitions(
-    -DAPP_NAME="CeCe"
-)
-
-if (DEV_PLUGINS)
-    # Directory is in build directory
-    add_definitions(
-        -DDIR_PLUGINS="${CMAKE_BINARY_DIR}/plugins"
-    )
-endif ()
 
 if (CECE_RENDER_ENABLE)
     set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
@@ -134,11 +142,6 @@ configure_file(config.hpp.in config.hpp @ONLY)
 
 # Configure version file
 configure_file(version.hpp.in version.hpp @ONLY)
-include_directories(${PROJECT_BINARY_DIR})
-
-if (UNIX AND NOT APPLE)
-    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH}:\$ORIGIN/../lib")
-endif ()
 
 if (APPLE)
     set(SRCS ${SRCS} icons/${APP_NAME}.icns)
@@ -154,11 +157,28 @@ endif ()
 # ######################################################################### #
 
 # Create executable
-add_executable(${PROJECT_NAME}
-    ${SRCS}
-)
+add_executable(${PROJECT_NAME} ${SRCS})
 
 # ######################################################################### #
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    CXX_STANDARD 11
+    CXX_EXTENSIONS Off
+    CXX_STANDARD_REQUIRED On
+)
+
+target_include_directories(${PROJECT_NAME}
+    PRIVATE ${PROJECT_BINARY_DIR}
+)
+
+if (CECE_PLUGINS_DEV)
+    get_target_property(DIR cece-plugins OUTPUT_DIRECTORY)
+
+    # Directory is in build directory
+    target_compile_definitions(${PROJECT_NAME}
+        PRIVATE -DDIR_PLUGINS="${DIR}"
+    )
+endif ()
 
 if (APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "@loader_path/../lib;@loader_path/../plugins")
@@ -187,6 +207,12 @@ if (CECE_ENABLE_IMAGE_CAPTURE)
     target_link_libraries(${PROJECT_NAME}
         ${PNG_LIBRARIES}
     )
+endif ()
+
+# ######################################################################### #
+
+if (UNIX AND NOT APPLE)
+    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH}:\$ORIGIN/../lib")
 endif ()
 
 # ######################################################################### #

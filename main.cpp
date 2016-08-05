@@ -84,7 +84,7 @@ void terminate_simulation(int param)
     auto bname = FilePath(name).filename();
 
     std::cout <<
-        APP_NAME "\n"
+        "CeCe\n"
         "\n"
         "  Cell-Cell interaction simulator.\n"
         "\n"

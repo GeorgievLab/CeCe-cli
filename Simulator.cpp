@@ -653,8 +653,7 @@ void Simulator::onMouseMove(double xpos, double ypos) noexcept
 String Simulator::getTitle() const noexcept
 {
     String title =
-        APP_NAME
-        " "
+        "CeCe "
         "[" + m_simulationFile.filename().string() + "] "
         "(" + toString(getSimulation()->getIteration())
     ;
