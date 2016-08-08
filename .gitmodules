@@ -1,5 +1,5 @@
 [submodule "glfw"]
-	path = glfw
+	path = GLFW
 	url = https://github.com/glfw/glfw.git
 [submodule "CeCe-core"]
 	path = CeCe-core
