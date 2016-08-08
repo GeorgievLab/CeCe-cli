@@ -128,7 +128,7 @@ void terminate_simulation(int param)
         "    <simulation-file>    Path to simulation file.\n"
     << std::endl;
 
-    exit(1);
+    exit(0);
 }
 
 /* ************************************************************************ */

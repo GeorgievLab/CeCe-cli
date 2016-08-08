@@ -87,7 +87,7 @@ if (CECE_RENDER_ENABLE)
     set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
     set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
     set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
-    add_subdirectory(glfw)
+    add_subdirectory(GLFW)
 endif ()
 
 if (CECE_CLI_ENABLE_IMAGE_CAPTURE OR CECE_CLI_ENABLE_VIDEO_CAPTURE)
@@ -160,6 +160,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 target_include_directories(${PROJECT_NAME}
     PRIVATE ${PROJECT_BINARY_DIR}
+    PRIVATE GLFW/include
 )
 
 if (CECE_PLUGINS_DEV)
@@ -169,10 +170,6 @@ if (CECE_PLUGINS_DEV)
     target_compile_definitions(${PROJECT_NAME}
         PRIVATE -DDIR_PLUGINS="${DIR}"
     )
-endif ()
-
-if (APPLE)
-    set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "@loader_path/../lib;@loader_path/../plugins")
 endif ()
 
 # ######################################################################### #
@@ -205,5 +202,16 @@ endif ()
 if (UNIX AND NOT APPLE)
     set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH}:\$ORIGIN/../lib")
 endif ()
+
+if (APPLE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "@loader_path/../lib;@loader_path/../plugins")
+endif ()
+
+# ######################################################################### #
+
+if (CECE_TESTS_BUILD)
+    enable_testing()
+    add_test(app_test ${PROJECT_NAME} --help)
+endif()
 
 # ######################################################################### #
