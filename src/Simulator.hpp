@@ -38,28 +38,22 @@
 // C++
 #include <atomic>
 #include <thread>
+#ifdef CECE_CLI_ENABLE_VIDEO_CAPTURE
+#  include <cstdio>
+#endif
 
 // GLFW
 #ifdef CECE_ENABLE_RENDER
-#include <GLFW/glfw3.h>
+#  include <GLFW/glfw3.h>
 #endif
 
 // CeCe
 #include "cece/core/ViewPtr.hpp"
 #include "cece/simulator/Simulator.hpp"
 #include "cece/simulator/Simulation.hpp"
-
 #ifdef CECE_CLI_ENABLE_IMAGE_CAPTURE
-#include "cece/core/StringStream.hpp"
-#include "cece/core/FileStream.hpp"
-#endif
-
-#ifdef CECE_CLI_ENABLE_VIDEO_CAPTURE
-#include <cstdio>
-#endif
-
-#if defined(CECE_ENABLE_RENDER) && defined(CECE_ENABLE_BOX2D_PHYSICS_DEBUG)
-#  include "cece/render/PhysicsDebugger.hpp"
+#  include "cece/core/StringStream.hpp"
+#  include "cece/core/FileStream.hpp"
 #endif
 
 // CLI
@@ -340,7 +334,7 @@ private:
     bool updateLayers(int key);
 
 
-#ifdef CONFIG_CLI_ENABLE_VIDEO_CAPTURE
+#ifdef CECE_CLI_ENABLE_VIDEO_CAPTURE
 
     /**
      * @brief Initialize video capturing.
@@ -377,11 +371,6 @@ private:
 
 // Private Data Members
 private:
-
-#if defined(CECE_ENABLE_RENDER) && defined(CECE_ENABLE_BOX2D_PHYSICS_DEBUG)
-    // Physics engine debug draw.
-    render::PhysicsDebugger m_physicsDebugger;
-#endif
 
     /// Termination request flag.
 #ifdef CECE_CLI_ENABLE_RENDER_THREAD

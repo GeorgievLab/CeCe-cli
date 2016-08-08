@@ -55,7 +55,8 @@
 #  include "cece/simulator/Visualization.hpp"
 #endif
 
-#ifdef CECE_ENABLE_BOX2D_PHYSICS_DEBUG
+#if defined(CECE_ENABLE_RENDER) && defined(CECE_ENABLE_BOX2D_PHYSICS_DEBUG)
+#  include "cece/render/PhysicsDebugger.hpp"
 #  include "cece/simulator/ConverterBox2D.hpp"
 #endif
 
@@ -70,6 +71,13 @@ namespace cli {
 /* ************************************************************************ */
 
 namespace {
+
+/* ************************************************************************ */
+
+#if defined(CECE_ENABLE_RENDER) && defined(CECE_ENABLE_BOX2D_PHYSICS_DEBUG)
+/// Physics debugger
+render::PhysicsDebugger g_physicsDebugger;
+#endif
 
 /* ************************************************************************ */
 
@@ -843,12 +851,12 @@ void Simulator::initScene()
 
 #ifdef CECE_ENABLE_BOX2D_PHYSICS_DEBUG
 
-    m_physicsDebugger.SetFlags(
+    g_physicsDebugger.SetFlags(
         render::PhysicsDebugger::e_shapeBit |
         render::PhysicsDebugger::e_centerOfMassBit |
         render::PhysicsDebugger::e_jointBit
     );
-    simulation->getWorld().SetDebugDraw(&m_physicsDebugger);
+    simulation->getWorld().SetDebugDraw(&g_physicsDebugger);
 
     m_physicsDebugger.setScale(1.0 / simulator::ConverterBox2D::getInstance().getLengthCoefficient());
 #endif

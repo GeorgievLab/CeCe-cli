@@ -75,9 +75,9 @@ endif()
 
 # Options
 if (CECE_RENDER_ENABLE)
-    option(CECE_ENABLE_IMAGE_CAPTURE "Enable support for image capturing" On)
-    option(CECE_ENABLE_VIDEO_CAPTURE "Enable support for video capturing" On)
-    option(CECE_ENABLE_RENDER_THREAD "Enable support for rendering thread" Off)
+    option(CECE_CLI_ENABLE_IMAGE_CAPTURE "Enable support for image capturing" On)
+    option(CECE_CLI_ENABLE_VIDEO_CAPTURE "Enable support for video capturing" On)
+    option(CECE_CLI_ENABLE_RENDER_THREAD "Enable support for rendering thread" Off)
 endif ()
 
 # ######################################################################### #
@@ -90,11 +90,11 @@ if (CECE_RENDER_ENABLE)
     add_subdirectory(glfw)
 endif ()
 
-if (CECE_ENABLE_IMAGE_CAPTURE OR CECE_ENABLE_VIDEO_CAPTURE)
+if (CECE_CLI_ENABLE_IMAGE_CAPTURE OR CECE_CLI_ENABLE_VIDEO_CAPTURE)
     if (NOT CECE_RENDER_ENABLE)
         message(WARNING "Video/image capture requires rendering support")
-        set(CECE_ENABLE_IMAGE_CAPTURE Off)
-        set(CECE_ENABLE_VIDEO_CAPTURE Off)
+        set(CECE_CLI_ENABLE_IMAGE_CAPTURE Off)
+        set(CECE_CLI_ENABLE_VIDEO_CAPTURE Off)
     else ()
         message(STATUS "Video/image capture support")
 
@@ -105,21 +105,12 @@ if (CECE_ENABLE_IMAGE_CAPTURE OR CECE_ENABLE_VIDEO_CAPTURE)
         else ()
             include_directories(${PNG_INCLUDE_DIRS})
         endif ()
-
-        if (CECE_ENABLE_IMAGE_CAPTURE)
-            add_definitions(-DCECE_ENABLE_IMAGE_CAPTURE=1)
-        endif ()
-
-        if (CECE_ENABLE_VIDEO_CAPTURE)
-            add_definitions(-DCECE_ENABLE_VIDEO_CAPTURE=1)
-        endif ()
     endif ()
 endif ()
 
-if (CECE_ENABLE_RENDER_THREAD)
-    if (CECE_THREAD_SAFE)
-        add_definitions(-DCECE_CLI_ENABLE_RENDER_THREAD)
-    else ()
+if (CECE_CLI_ENABLE_RENDER_THREAD)
+    if (NOT CECE_THREAD_SAFE)
+        set(CECE_CLI_ENABLE_RENDER_THREAD Off)
         message(WARNING "No thread safe support, disabling CLI rendering thread")
     endif ()
 endif ()
@@ -128,20 +119,20 @@ endif ()
 
 # Sources
 set(SRCS
-    Arguments.hpp
-    Arguments.cpp
-    Image.hpp
-    Image.cpp
-    Simulator.hpp
-    Simulator.cpp
-    main.cpp
+    src/Arguments.hpp
+    src/Arguments.cpp
+    src/Image.hpp
+    src/Image.cpp
+    src/Simulator.hpp
+    src/Simulator.cpp
+    src/main.cpp
 )
 
 # Configure config
-configure_file(config.hpp.in config.hpp @ONLY)
+configure_file(src/config.hpp.in config.hpp)
 
 # Configure version file
-configure_file(version.hpp.in version.hpp @ONLY)
+configure_file(src/version.hpp.in version.hpp)
 
 if (APPLE)
     set(SRCS ${SRCS} icons/${APP_NAME}.icns)
