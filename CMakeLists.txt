@@ -191,7 +191,7 @@ if (UNIX AND NOT APPLE)
     )
 endif ()
 
-if (CECE_ENABLE_IMAGE_CAPTURE)
+if (CECE_CLI_ENABLE_IMAGE_CAPTURE)
     target_link_libraries(${PROJECT_NAME}
         ${PNG_LIBRARIES}
     )
