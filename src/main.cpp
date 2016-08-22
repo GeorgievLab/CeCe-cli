@@ -175,7 +175,7 @@ void terminate_simulation(int param)
  */
 String getPluginsDirectory(FilePath app, FilePath dir) noexcept
 {
-    return (app.remove_filename() / dir).toString();
+    return (app.getParentPath() / dir).toString();
 }
 #endif
 
