@@ -65,11 +65,11 @@ Arguments Arguments::parse(int argc, char** argv)
 #ifdef CECE_ENABLE_RENDER
             else if (arg == "--visualize")
             {
-                args.visualize = true;
+                args.visualize = VisualizeState::True;
             }
             else if (arg == "--novisualize")
             {
-                args.visualize = false;
+                args.visualize = VisualizeState::False;
             }
             else if (arg == "--fullscreen")
             {
@@ -123,7 +123,7 @@ Arguments Arguments::parse(int argc, char** argv)
                 args.printHelp = true;
             }
         }
-        else if (args.simulationFile.empty())
+        else if (args.simulationFile.isEmpty())
         {
             args.simulationFile = FilePath(arg.getData());
         }

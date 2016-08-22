@@ -39,14 +39,22 @@
 #include "cece/core/FilePath.hpp"
 #include "cece/core/Parameters.hpp"
 
-#ifdef CECE_ENABLE_RENDER
-#  include "cece/core/TriBool.hpp"
-#endif
-
 /* ************************************************************************ */
 
 namespace cece {
 namespace cli {
+
+/* ************************************************************************ */
+
+/**
+ * @brief Visualization state.
+ */
+enum class VisualizeState
+{
+    Undefined,
+    True,
+    False
+};
 
 /* ************************************************************************ */
 
@@ -72,7 +80,7 @@ struct Arguments
 
 #ifdef CECE_ENABLE_RENDER
     // If simulation should be rendered.
-    TriBool visualize = cece::Indeterminate;
+    VisualizeState visualize = VisualizeState::Undefined;
 
     /// Window width.
     unsigned int windowWidth = 0;

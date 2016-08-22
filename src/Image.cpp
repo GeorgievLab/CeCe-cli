@@ -45,10 +45,10 @@ namespace cli {
 void storeImage(const FilePath& filename, DynamicArray<unsigned char> data,
     unsigned int width, unsigned int height)
 {
-    OutFileStream file(filename.string(), OutFileStream::binary);
+    OutFileStream file(filename.c_str(), OutFileStream::binary);
 
     if (!file.is_open())
-        throw InvalidArgumentException("Cannot open output file: " + filename.string());
+        throw InvalidArgumentException("Cannot open output file: " + filename.toString());
 
     // Create write struct
     png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);

@@ -81,7 +81,7 @@ void terminate_simulation(int param)
  */
 [[noreturn]] static void printHelp(const char* name) noexcept
 {
-    auto bname = FilePath(name).filename();
+    auto bname = FilePath(name).getFilename();
 
     std::cout <<
         "CeCe\n"
@@ -175,7 +175,7 @@ void terminate_simulation(int param)
  */
 String getPluginsDirectory(FilePath app, FilePath dir) noexcept
 {
-    return (app.remove_filename() / dir).string();
+    return (app.remove_filename() / dir).toString();
 }
 #endif
 
@@ -210,7 +210,7 @@ cece::cli::Arguments processArguments(int argc, char** argv)
     if (args.printPlugins)
         printPlugins(std::move(args.pluginsDirectories));
 
-    if (args.simulationFile.empty())
+    if (args.simulationFile.isEmpty())
         throw InvalidArgumentException("Missing simulation file");
 
     return args;

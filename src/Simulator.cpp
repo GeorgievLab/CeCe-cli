@@ -243,9 +243,9 @@ Simulator::Simulator(const Arguments& args)
     const auto simViz = m_simulator.getSimulation()->getVisualization().isEnabled();
 
     // Decide if simulation should be visualized
-    if (args.visualize)
+    if (args.visualize == VisualizeState::True)
         m_visualize = true;
-    else if (!args.visualize)
+    else if (args.visualize == VisualizeState::False)
         m_visualize = false;
     else
         m_visualize = simViz;
@@ -439,7 +439,7 @@ void Simulator::saveImage()
 #endif
 
     // Add filename
-    oss << m_simulationFile.stem().string() << "_" << getSimulation()->getIteration() << ".png";
+    oss << m_simulationFile.getStem().toString() << "_" << getSimulation()->getIteration() << ".png";
 
     const String filename = oss.str();
 
@@ -662,7 +662,7 @@ String Simulator::getTitle() const noexcept
 {
     String title =
         "CeCe "
-        "[" + m_simulationFile.filename().string() + "] "
+        "[" + m_simulationFile.getFilename() + "] "
         "(" + toString(getSimulation()->getIteration())
     ;
 
@@ -731,7 +731,7 @@ void Simulator::initVisualization()
 
 #ifdef CECE_CLI_ENABLE_VIDEO_CAPTURE
     // Disable window resizing
-    if (!m_videoFileName.empty())
+    if (!m_videoFileName.isEmpty())
         glfwWindowHint(GLFW_RESIZABLE, false);
 #endif
 
@@ -816,7 +816,7 @@ void Simulator::initVisualization()
 #endif
 
 #ifdef CECE_CLI_ENABLE_VIDEO_CAPTURE
-    if (!m_videoFileName.empty())
+    if (!m_videoFileName.isEmpty())
         initVideoCapture(m_videoFileName);
 #endif
 }
@@ -935,7 +935,7 @@ void Simulator::initVideoCapture(const FilePath& fileName)
     if (dir)
         filename += String(dir) + "/";
 #endif
-    filename += fileName.string();
+    filename += fileName.toString();
 
     Log::info("Video output '", filename, "'");
 
