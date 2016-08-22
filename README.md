@@ -1,6 +1,9 @@
 
 # CeCe CLI application
 
+[![Build Status](https://travis-ci.org/GeorgievLab/CeCe-cli.svg?branch=master)](https://travis-ci.org/GeorgievLab/CeCe-cli)
+[![Build status](https://ci.appveyor.com/api/projects/status/slowt8psw5qpgj3v/branch/master?svg=true)](https://ci.appveyor.com/project/NTSFka/cece-cli/branch/master)
+
 CeCe is a platform for advanced simulation of cells and cell signalling in 2D.
 
 This repository contains only CLI application, for whole project see [https://github.com/GeorgievLab/CeCe](https://github.com/GeorgievLab/CeCe)
