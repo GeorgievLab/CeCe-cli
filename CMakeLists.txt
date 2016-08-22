@@ -83,6 +83,15 @@ endif ()
 # ######################################################################### #
 
 if (CECE_RENDER_ENABLE)
+    # Init GLFW submodule
+    if (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/GLFW/CMakeLists.txt")
+        find_package(Git REQUIRED)
+        execute_process(
+            COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive GLFW
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+    endif()
+
     set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
     set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
     set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
