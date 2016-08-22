@@ -200,11 +200,9 @@ endif ()
 # ######################################################################### #
 
 if (UNIX AND NOT APPLE)
-    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH}:\$ORIGIN/../lib")
-endif ()
-
-if (APPLE)
-    set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "@loader_path/../lib;@loader_path/../plugins")
+    set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "\$ORIGIN/../lib")
+elseif (APPLE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "@loader_path/../lib")
 endif ()
 
 # ######################################################################### #
@@ -213,5 +211,39 @@ if (CECE_TESTS_BUILD)
     enable_testing()
     add_test(app_test ${PROJECT_NAME} --help)
 endif()
+
+# ######################################################################### #
+
+install(TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+)
+
+install(FILES LICENSE.txt Copyright.txt README.md
+    DESTINATION .
+)
+
+# ######################################################################### #
+
+include(InstallRequiredSystemLibraries)
+
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "CeCe CLI application")
+set(CPACK_PACKAGE_VENDOR "Georgiev Lab")
+set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
+set(CPACK_PACKAGE_NAME CeCe-cli)
+set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
+set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+set(CPACK_PACKAGE_CONTACT "Jiří Fatka <fatkaj@ntis.zcu.cz>")
+
+# ######################################################################### #
+
+set(CPACK_STRIP_FILES "${INSTALL_DIR_RUNTIME}/${CMAKE_PROJECT_NAME}")
+
+# ######################################################################### #
+
+include(CPack)
 
 # ######################################################################### #
