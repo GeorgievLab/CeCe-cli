@@ -196,12 +196,10 @@ cece::cli::Arguments processArguments(int argc, char** argv)
     // Add default plugin directories
 #ifdef DIR_PLUGINS
     args.pluginsDirectories.push_back(DIR_PLUGINS);
-#elif __linux__
-    args.pluginsDirectories.push_back(getPluginsDirectory(argv[0], "../lib/cece/plugins"));
-#elif __APPLE__ && __MACH__
-    args.pluginsDirectories.push_back(getPluginsDirectory(argv[0], "../plugins"));
 #elif _WIN32
     args.pluginsDirectories.push_back(getPluginsDirectory(argv[0], "."));
+#else
+    args.pluginsDirectories.push_back(getPluginsDirectory(argv[0], "../lib"));
 #endif
 
     if (args.printHelp)
