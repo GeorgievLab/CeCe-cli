@@ -25,6 +25,8 @@
 #                                                                           #
 # ######################################################################### #
 
+pushd build
+
 # Create a package
 cpack -G TGZ
 
@@ -41,5 +43,6 @@ fi
 echo "Deploy package: $PACKAGE"
 curl --ftp-create-dirs --ftp-ssl -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_SERVER/bin/ -T $PACKAGE || { echo "Deploy failed"; exit 1; }
 
-# ######################################################################### #
+popd
 
+# ######################################################################### #
