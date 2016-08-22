@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # ######################################################################### #
 # Georgiev Lab (c) 2015-2016                                                #
 # ######################################################################### #
@@ -23,58 +25,21 @@
 #                                                                           #
 # ######################################################################### #
 
-sudo: required
-dist: trusty
+# Create a package
+cpack -G TGZ
 
-# Operating systems
-os:
-    - linux
-    - osx
+# Get package name
+PACKAGE=`ls CeCe-*.tar.gz`
 
-# Compilers
-compiler:
-    - clang
-    - gcc
+if [ -z "$TRAVIS_TAG" ]; then
+	BASE=`basename $PACKAGE .tar.gz`
+	PACKAGE_NEW=$BASE-$TRAVIS_BRANCH-${TRAVIS_COMMIT:0:7}.tar.gz
+	mv $PACKAGE $PACKAGE_NEW
+	PACKAGE=$PACKAGE_NEW
+fi
 
-language: cpp
-
-cache: ccache
-
-# Disable build for AppVeyor branch
-branches:
-    except:
-        - appveyor
-
-# Environment variables
-env:
-    matrix:
-        - ENABLE_RENDER=true
-        - ENABLE_RENDER=false
-
-before_install:
-    - bash -x ./CeCe-core/scripts/ci/before_install-$TRAVIS_OS_NAME.sh
-    - bash -x ./CeCe-plugins/scripts/ci/before_install-$TRAVIS_OS_NAME.sh
-    - bash -x ./scripts/ci/before_install-$TRAVIS_OS_NAME.sh
-
-install:
-    - bash -x ./CeCe-core/scripts/ci/install-$TRAVIS_OS_NAME.sh
-    - bash -x ./CeCe-plugins/scripts/ci/install-$TRAVIS_OS_NAME.sh
-    - bash -x ./scripts/ci/install-$TRAVIS_OS_NAME.sh
-
-before_script:  bash -x ./scripts/ci/before_script-$TRAVIS_OS_NAME.sh
-script:         bash -x ./scripts/ci/script-$TRAVIS_OS_NAME.sh
-after_success:  bash -x ./scripts/ci/after_success-$TRAVIS_OS_NAME.sh
-
-notifications:
-    slack:
-        secure: Q3gZ4jp6VtWVuCs7S0CzNcuPCd4HtUyhdY0I3uGVintyDJhN0wsJObsBwD6exYkw9FxsIZx7E8STqZoxZgD5S5siqXs6X/cFlzWCME06917+xKOqo5p+vHmPRNr7rYhiH3KYguRJGodf1Xovjjvtas1cI0rNI4jX6MW6NbKrTv0++GAoMOoy4BNGhcZ5MCpHQyalsqLP1yT2wMAFYOIAy6vvJaolF+367etH2HsKeH9Sjz4M2XvZq+A8m4MPvbBhMwYV6vmeS+a1R956OJh8C2Ksz0WuAHpV7KXly9dO8sMsAXZ0Ev7iMs6AsUo6fuJrIECq6LdgoaN0YxLJmNJy8fQEIGMPhfQ+tBfMdje5jUt6WRMQl+qD5M1Pi8iCJQdrx4CXD/CIKdmZSP81McE9RYw1OdIH2Fj+CGpk0gtXF9GrlZO2OmuYWz190bt3go1W5uCYbicfeLxmVL1gZlc4ZK1xbu6VgpI07Z2LIyU2qnA4uJ9Oldrg44nDE3qXpQZvQUJ5yMCRJ8nhr7nvSVbls1COxg2erg4oH4r3FMWyLxWuQnyhJ32FsCCvmbvu2Qr3dXdyuqxTCmaOd587JF2aiN1RV5dpimGszT7mxDB+bvlrN5dxnHayM8uIZ+X7+2f3sZ3GXob5HZrKtAu/ryG3hvz9yypGyPdNAz3bTT5OBSY=
-
-deploy:
-    provider: script
-    script: scripts/ci/deploy.sh
-    skip_cleanup: true
-    on:
-        branch: master
-        condition: '"$ENABLE_RENDER" = true && ( ( "$TRAVIS_OS_NAME" = "linux" && $CC = "gcc" ) || ( "$TRAVIS_OS_NAME" = "osx" && $CC = "clang" ) )'
+echo "Deploy package: $PACKAGE"
+curl --ftp-create-dirs --ftp-ssl -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_SERVER/bin/ -T $PACKAGE || { echo "Deploy failed"; exit 1; }
 
 # ######################################################################### #
+
