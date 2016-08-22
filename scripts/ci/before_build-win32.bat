@@ -25,14 +25,16 @@
 
 @echo on
 
+SET PF=Program Files (x86)
+IF "%GENERATOR%" == "Visual Studio 14 2015 Win64" SET PF=Program Files
+
 :: Shared configuration arguments
 SET ARGS=^
     -DCMAKE_BUILD_TYPE=Release ^
-    -DBOOST_ROOT="%BOOST_ROOT%" ^
-    -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%" ^
-    -DPNG_PNG_INCLUDE_DIR="C:\Program Files (x86)\libpng\include" ^
-    -DZLIB_LIBRARY="C:\Program Files (x86)\zlib\lib\zlibstatic.lib" ^
-    -DPNG_LIBRARY_RELEASE="C:\Program Files (x86)\libpng\lib\libpng16_static.lib"
+    -DPNG_PNG_INCLUDE_DIR="C:\%PF%\libpng\include" ^
+    -DPNG_LIBRARY_RELEASE="C:\%PF%\libpng\lib\libpng16_static.lib" ^
+    -DZLIB_INCLUDE_DIR="C:\%PF%\zlib\include" ^
+    -DZLIB_LIBRARY="C:\%PF%\zlib\lib\zlibstatic.lib"
 
 md build
 pushd build
