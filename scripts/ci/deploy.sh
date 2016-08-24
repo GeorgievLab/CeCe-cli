@@ -33,13 +33,6 @@ cpack -G TGZ
 # Get package name
 PACKAGE=`ls CeCe-*.tar.gz`
 
-if [ -z "$TRAVIS_TAG" ]; then
-	BASE=`basename $PACKAGE .tar.gz`
-	PACKAGE_NEW=$BASE-$TRAVIS_BRANCH-${TRAVIS_COMMIT:0:7}.tar.gz
-	mv $PACKAGE $PACKAGE_NEW
-	PACKAGE=$PACKAGE_NEW
-fi
-
 echo "Deploy package: $PACKAGE"
 curl --ftp-create-dirs --ftp-ssl -u $FTP_USER:$FTP_PASSWORD ftp://$FTP_SERVER/bin/ -T $PACKAGE || { echo "Deploy failed"; exit 1; }
 
