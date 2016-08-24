@@ -100,6 +100,6 @@ deploy:
     skip_cleanup: true
     on:
         branch: master
-        condition: '"$CECE_RENDER" = "On" && ( ( "$TRAVIS_OS_NAME" = "linux" && $CC = "gcc" ) || ( "$TRAVIS_OS_NAME" = "osx" && $CC = "clang" ) )'
+        condition: '"$CECE_RENDER" = "On" && ( ( "$TRAVIS_OS_NAME" = "linux" && $CC = "gcc-4.9" ) || ( "$TRAVIS_OS_NAME" = "osx" && $CC = "clang" ) )'
 
 # ######################################################################### #
