@@ -26,16 +26,6 @@
 sudo: required
 dist: trusty
 
-# Operating systems
-os:
-    - linux
-    - osx
-
-# Compilers
-compiler:
-    - clang
-    - gcc
-
 language: cpp
 
 cache: ccache
@@ -54,6 +44,33 @@ env:
     matrix:
         - CECE_RENDER=On
         - CECE_RENDER=Off
+
+matrix:
+    include:
+        - os: linux
+          compiler: gcc
+          env: CECE_RENDER=On DEPLOY=On
+        - os: linux
+          compiler: gcc
+          env: CECE_RENDER=Off DEPLOY=Off
+        - os: linux
+          compiler: clang
+          env: CECE_RENDER=On DEPLOY=Off
+        - os: linux
+          compiler: clang
+          env: CECE_RENDER=Off DEPLOY=Off
+        - os: osx
+          compiler: clang
+          env: CECE_RENDER=On DEPLOY=On
+        - os: osx
+          compiler: clang
+          env: CECE_RENDER=Off DEPLOY=Off
+        - os: osx
+          compiler: gcc
+          env: CECE_RENDER=On DEPLOY=Off
+        - os: osx
+          compiler: gcc
+          env: CECE_RENDER=Off DEPLOY=Off
 
 addons:
     apt:
@@ -100,6 +117,6 @@ deploy:
     skip_cleanup: true
     on:
         branch: master
-        condition: '"$CECE_RENDER" = "On" && ( ( "$TRAVIS_OS_NAME" = "linux" && $CC = "gcc-4.9" ) || ( "$TRAVIS_OS_NAME" = "osx" && $CC = "clang" ) )'
+        condition: "$DEPLOY = On"
 
 # ######################################################################### #

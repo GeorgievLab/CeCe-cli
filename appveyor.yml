@@ -31,16 +31,22 @@ environment:
     matrix:
         - GENERATOR: Visual Studio 14 2015 Win64
           CECE_RENDER: On
+          DEPLOY: On
         - GENERATOR: Visual Studio 14 2015 Win64
           CECE_RENDER: Off
+          DEPLOY: Off
         - GENERATOR: Visual Studio 14 2015
           CECE_RENDER: On
+          DEPLOY: On
         - GENERATOR: Visual Studio 14 2015
           CECE_RENDER: Off
+          DEPLOY: Off
         - GENERATOR: MinGW Makefiles
           CECE_RENDER: On
+          DEPLOY: Off
         - GENERATOR: MinGW Makefiles
           CECE_RENDER: Off
+          DEPLOY: Off
 
 matrix:
     allow_failures:
@@ -84,5 +90,8 @@ deploy:
         secure: Zc2VMyaTYtp6nZkYel9B+FAymGCXD2vFss2H2d0VSJY=
     folder: bin
     artifact: CeCe
+    on:
+        branch: master
+        DEPLOY: On
 
 # ######################################################################### #
