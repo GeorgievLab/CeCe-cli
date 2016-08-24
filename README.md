@@ -31,14 +31,10 @@ cmake --build .
 ### Requirements
 
 * C++11 compiler - GCC, Clang, MSVC.
-* [CMake](https://cmake.org) v2.8 or newer.
-* [Boost C++ Libraries](http://www.boost.org) - Filesystem, System, Any, Tribool and Variant.
-* [libpng](http://libpng.org/pub/png/libpng.html) - image capturing.
+* [CMake](https://cmake.org) v3.1 or newer.
 
 ### Optional requirements
 
-For some functionality and plugins additional libraries are required.
-
-* [Python 2.7](http://python.org) - Python plugins.
+* [libpng](http://libpng.org/pub/png/libpng.html) - image capturing.
 * [zlib](http://zlib.net) - required by libpng.
 * [GLFW3](http://www.glfw.org) - Simulation visualization.
