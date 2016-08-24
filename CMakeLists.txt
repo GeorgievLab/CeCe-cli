@@ -74,7 +74,7 @@ endif()
 # ######################################################################### #
 
 # Options
-if (CECE_RENDER_ENABLE)
+if (CECE_RENDER)
     option(CECE_CLI_ENABLE_IMAGE_CAPTURE "Enable support for image capturing" On)
     option(CECE_CLI_ENABLE_VIDEO_CAPTURE "Enable support for video capturing" On)
     option(CECE_CLI_ENABLE_RENDER_THREAD "Enable support for rendering thread" Off)
@@ -82,7 +82,7 @@ endif ()
 
 # ######################################################################### #
 
-if (CECE_RENDER_ENABLE)
+if (CECE_RENDER)
     # Init GLFW submodule
     if (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/GLFW/CMakeLists.txt")
         find_package(Git REQUIRED)
@@ -100,7 +100,7 @@ if (CECE_RENDER_ENABLE)
 endif ()
 
 if (CECE_CLI_ENABLE_IMAGE_CAPTURE OR CECE_CLI_ENABLE_VIDEO_CAPTURE)
-    if (NOT CECE_RENDER_ENABLE)
+    if (NOT CECE_RENDER)
         message(WARNING "Video/image capture requires rendering support")
         set(CECE_CLI_ENABLE_IMAGE_CAPTURE Off)
         set(CECE_CLI_ENABLE_VIDEO_CAPTURE Off)
@@ -188,7 +188,7 @@ target_link_libraries(${PROJECT_NAME}
     cece
 )
 
-if (CECE_RENDER_ENABLE)
+if (CECE_RENDER)
     target_link_libraries(${PROJECT_NAME}
         glfw ${GLFW_LIBRARIES}
     )

@@ -62,7 +62,7 @@ Arguments Arguments::parse(int argc, char** argv)
                 args.parameters[argv[i + 1]] = argv[i + 2];
                 i += 2;
             }
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
             else if (arg == "--visualize")
             {
                 args.visualize = VisualizeState::True;

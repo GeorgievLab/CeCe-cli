@@ -50,13 +50,10 @@
 #endif
 #endif
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 #  include "cece/render/Context.hpp"
-#  include "cece/simulator/Visualization.hpp"
-#endif
-
-#if defined(CECE_ENABLE_RENDER) && defined(CECE_ENABLE_BOX2D_PHYSICS_DEBUG)
 #  include "cece/render/PhysicsDebugger.hpp"
+#  include "cece/simulator/Visualization.hpp"
 #  include "cece/simulator/ConverterBox2D.hpp"
 #endif
 
@@ -74,14 +71,14 @@ namespace {
 
 /* ************************************************************************ */
 
-#if defined(CECE_ENABLE_RENDER) && defined(CECE_ENABLE_BOX2D_PHYSICS_DEBUG)
+#ifdef CECE_RENDER
 /// Physics debugger
 render::PhysicsDebugger g_physicsDebugger;
 #endif
 
 /* ************************************************************************ */
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 const char* translateKey(int key) noexcept
 {
     switch (key)
@@ -199,7 +196,7 @@ const char* translateKey(int key) noexcept
 
 /* ************************************************************************ */
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 String strToLower(String str) noexcept
 {
     std::transform(str.begin(), str.end(), str.begin(), [] (String::value_type c) {
@@ -218,7 +215,7 @@ String strToLower(String str) noexcept
 
 Simulator::Simulator(const Arguments& args)
     : m_simulationFile(args.simulationFile)
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
     , m_fullscreen(args.fullscreen)
 #endif
 {
@@ -233,7 +230,7 @@ Simulator::Simulator(const Arguments& args)
     // Create simulation
     m_simulator.setSimulation(context.createSimulation(m_simulationFile, &args.parameters));
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
     if (args.windowWidth)
         m_windowWidth = args.windowWidth;
 
@@ -260,7 +257,7 @@ Simulator::Simulator(const Arguments& args)
 
 Simulator::~Simulator()
 {
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 #ifdef CECE_CLI_ENABLE_RENDER_THREAD
     // Stop render thread
     m_renderThread.join();
@@ -269,7 +266,7 @@ Simulator::~Simulator()
 
     // Delete simulation
     m_simulator.setSimulation(nullptr);
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
     // Delete all released object before visualization cleanup
     m_simulator.getRenderContext().deleteReleasedObjects();
     cleanupVisualization();
@@ -290,7 +287,7 @@ void Simulator::init(AtomicBool& flag)
     // Initialize simulation
     m_simulator.getSimulation()->initialize(flag);
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
     if (isVisualized())
     {
         initVisualization();
@@ -343,7 +340,7 @@ void Simulator::init(AtomicBool& flag)
 
 void Simulator::step()
 {
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
     if (isVisualized())
     {
         // Redraw scene
@@ -389,7 +386,7 @@ void Simulator::start(AtomicBool& flag)
 
 /* ************************************************************************ */
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 void Simulator::draw()
 {
     Assert(isVisualized());
@@ -411,7 +408,7 @@ void Simulator::draw()
 
 /* ************************************************************************ */
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 void Simulator::swap()
 {
     Assert(isVisualized());
@@ -460,7 +457,7 @@ void Simulator::saveImage()
 
 /* ************************************************************************ */
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 void Simulator::onResize(int width, int height) noexcept
 {
     // Store new window size.
@@ -474,7 +471,7 @@ void Simulator::onResize(int width, int height) noexcept
 
 /* ************************************************************************ */
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 void Simulator::onKeyPress(int key, int code, int action, int mods) noexcept
 {
     constexpr float MOVE_COEFF = 5.0f;
@@ -579,7 +576,7 @@ void Simulator::onKeyPress(int key, int code, int action, int mods) noexcept
 
 /* ************************************************************************ */
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 void Simulator::onMouseScroll(double xoffset, double yoffset) noexcept
 {
     constexpr float ZOOM_COEFF = 1.1f;
@@ -602,7 +599,7 @@ void Simulator::onMouseScroll(double xoffset, double yoffset) noexcept
 
 /* ************************************************************************ */
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 void Simulator::onMouseClick(int button, int action, int mods) noexcept
 {
     if (button == GLFW_MOUSE_BUTTON_LEFT)
@@ -626,7 +623,7 @@ void Simulator::onMouseClick(int button, int action, int mods) noexcept
 
 /* ************************************************************************ */
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 void Simulator::onMouseMove(double xpos, double ypos) noexcept
 {
     if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) != GLFW_PRESS)
@@ -657,7 +654,7 @@ void Simulator::onMouseMove(double xpos, double ypos) noexcept
 
 /* ************************************************************************ */
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 String Simulator::getTitle() const noexcept
 {
     String title =
@@ -677,7 +674,7 @@ String Simulator::getTitle() const noexcept
 
 /* ************************************************************************ */
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 void Simulator::updateTitle() noexcept
 {
     auto title = getTitle();
@@ -687,7 +684,7 @@ void Simulator::updateTitle() noexcept
 
 /* ************************************************************************ */
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 void Simulator::initVisualization()
 {
     if (!m_visualize)
@@ -824,7 +821,7 @@ void Simulator::initVisualization()
 
 /* ************************************************************************ */
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 void Simulator::cleanupVisualization() noexcept
 {
 #ifdef CECE_CLI_ENABLE_VIDEO_CAPTURE
@@ -843,13 +840,11 @@ void Simulator::cleanupVisualization() noexcept
 
 /* ************************************************************************ */
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 void Simulator::initScene()
 {
     // Get simulation
     auto simulation = m_simulator.getSimulation();
-
-#ifdef CECE_ENABLE_BOX2D_PHYSICS_DEBUG
 
     g_physicsDebugger.SetFlags(
         render::PhysicsDebugger::e_shapeBit |
@@ -858,8 +853,7 @@ void Simulator::initScene()
     );
     simulation->getWorld().SetDebugDraw(&g_physicsDebugger);
 
-    m_physicsDebugger.setScale(1.0 / simulator::ConverterBox2D::getInstance().getLengthCoefficient());
-#endif
+    g_physicsDebugger.setScale(1.0 / simulator::ConverterBox2D::getInstance().getLengthCoefficient());
 
     // Initialize simulator
     m_simulator.drawInit(simulation->getVisualization().getBackgroundColor());
@@ -871,7 +865,7 @@ void Simulator::initScene()
 
 /* ************************************************************************ */
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 void Simulator::setOptimalZoom()
 {
     // Get frame buffer size
@@ -890,7 +884,7 @@ void Simulator::setOptimalZoom()
 
 /* ************************************************************************ */
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 void Simulator::forceRedraw()
 {
     m_forceRedraw = true;
@@ -899,7 +893,7 @@ void Simulator::forceRedraw()
 
 /* ************************************************************************ */
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 bool Simulator::updateLayers(int key)
 {
     // Get visualization

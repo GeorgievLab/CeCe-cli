@@ -43,7 +43,7 @@
 #endif
 
 // GLFW
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 #  include <GLFW/glfw3.h>
 #endif
 
@@ -102,7 +102,7 @@ public:
     ViewPtr<simulator::Simulation> getSimulation() const noexcept;
 
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 
     /**
      * @brief Returns if simulation is visualized.
@@ -135,7 +135,7 @@ public:
      */
     bool isTerminationRequest() const noexcept
     {
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
         return m_termination || glfwWindowShouldClose(m_window);
 #else
         return m_termination;
@@ -180,7 +180,7 @@ public:
     }
 
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 
     /**
      * @brief Draw scene.
@@ -258,7 +258,7 @@ public:
 private:
 
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 
     /**
      * @brief Returns if visualization needs to be updated.
@@ -277,7 +277,7 @@ private:
 private:
 
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 
 
     /**
@@ -392,7 +392,7 @@ private:
     // Simulator
     simulator::Simulator m_simulator;
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
     // If simulation should be rendered.
     bool m_visualize = true;
 
@@ -415,7 +415,7 @@ private:
     BasicVector<double, 2> m_movePos;
 #endif
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
 #ifdef CECE_CLI_ENABLE_RENDER_THREAD
     /// Render thread.
     std::thread m_renderThread;

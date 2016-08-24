@@ -78,7 +78,7 @@ struct Arguments
     /// Simulation parameters.
     Parameters parameters;
 
-#ifdef CECE_ENABLE_RENDER
+#ifdef CECE_RENDER
     // If simulation should be rendered.
     VisualizeState visualize = VisualizeState::Undefined;
 
