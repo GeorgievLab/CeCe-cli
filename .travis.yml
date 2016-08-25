@@ -28,8 +28,6 @@ dist: trusty
 
 cache: ccache
 
-compiler: gcc
-
 # Disable build for AppVeyor branch
 branches:
     except:
@@ -68,8 +66,6 @@ matrix:
         - os: osx
           compiler: gcc
           env: CECE_RENDER=Off DEPLOY=Off
-    exclude:
-        compiler: gcc
 
 addons:
     apt:
