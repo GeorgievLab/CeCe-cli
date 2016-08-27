@@ -27,8 +27,8 @@
 #include <windows.h>
 
 VS_VERSION_INFO     VERSIONINFO
-FILEVERSION         @VERSION_MAJOR@,@VERSION_MINOR@,@VERSION_PATCH@,0
-PRODUCTVERSION      @VERSION_MAJOR@,@VERSION_MINOR@,@VERSION_PATCH@,0
+FILEVERSION         @PROJECT_VERSION_MAJOR@,@PROJECT_VERSION_MINOR@,@PROJECT_VERSION_PATCH@,0
+PRODUCTVERSION      @PROJECT_VERSION_MAJOR@,@PROJECT_VERSION_MINOR@,@PROJECT_VERSION_PATCH@,0
 FILEFLAGSMASK       VS_FFI_FILEFLAGSMASK
 #ifdef _DEBUG
 FILEFLAGS           VS_FF_DEBUG|VS_FF_PRIVATEBUILD|VS_FF_PRERELEASE
@@ -43,16 +43,16 @@ FILESUBTYPE         VFT2_UNKNOWN
     {
         BLOCK "040904b0"
         {
-            VALUE "Build",            @BUILD_DATE@ "\0"
+            VALUE "Build",            "@BUILD_DATE@\0"
             VALUE "Comments",         "Cell-Cell interaction simulator\0"
             VALUE "CompanyName",      "Georgiev Lab\0"
             VALUE "FileDescription",  "CeCe simulator\0"
             VALUE "FileVersion",      "@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@\0"
             VALUE "InternalName",     "cece\0"
             VALUE "LegalCopyright",   "none\0"
-            VALUE "OriginalFilename", "@CMAKE_PROJECT_NAME@-@PROJECT_NAME@.exe\0"
-            VALUE "ProductName",      "@CMAKE_PROJECT_NAME@-@PROJECT_NAME@\0"
-            VALUE "ProductVersion",   "@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@\0"
+            VALUE "OriginalFilename", "@PROJECT_NAME@.exe\0"
+            VALUE "ProductName",      "@PROJECT_NAME@\0"
+            VALUE "ProductVersion",   "@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.@PROJECT_VERSION_PATCH@\0"
         }
     }
     BLOCK "VarFileInfo"
