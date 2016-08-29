@@ -64,7 +64,7 @@ install:
     - call CeCe-plugins\scripts\ci\install-win32.bat
 
 before_build:
-    - call CeCe-plugins\ci\before_build-win32.bat
+    - call CeCe-plugins\scripts\ci\before_build-win32.bat
 
 build_script:
     - pushd build && cmake --build . --config Release & popd
