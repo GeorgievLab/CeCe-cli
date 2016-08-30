@@ -95,6 +95,7 @@ void terminate_simulation(int param)
         "  " << bname << " "
             "[ --plugins "
             "| --plugins-dir "
+            "| --plugin <name> "
             "| --param | -p "
 #ifdef CECE_ENABLE_RENDER
             "| --visualize "
@@ -111,6 +112,7 @@ void terminate_simulation(int param)
         "\n"
         "    --plugins            Prints a list of available plugins.\n"
         "    --plugins-dir <dir>  Directory where plugins are located.\n"
+        "    --plugin <name>      Display information about given plugin.\n"
         "    --param <name> <value> Set simulation parameter.\n"
         "    -p <name> <value>    Set simulation parameter.\n"
 #ifdef CECE_ENABLE_RENDER
