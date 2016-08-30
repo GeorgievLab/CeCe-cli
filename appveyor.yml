@@ -80,18 +80,18 @@ artifacts:
       path: CeCe-*.zip
 
 deploy:
-    provider: FTP
-    protocol: ftps
-    host:
-        secure: g8ZUzEGzUAIS+A2dpHjL/Q==
-    username:
-        secure: 7Wa3HmWgZPrk9tbpoNbVoA==
-    password:
-        secure: Zc2VMyaTYtp6nZkYel9B+FAymGCXD2vFss2H2d0VSJY=
-    folder: bin
-    artifact: CeCe
-    on:
-        branch: master
-        DEPLOY: On
+    - provider: FTP
+      protocol: ftps
+      host:
+          secure: g8ZUzEGzUAIS+A2dpHjL/Q==
+      username:
+          secure: 7Wa3HmWgZPrk9tbpoNbVoA==
+      password:
+          secure: Zc2VMyaTYtp6nZkYel9B+FAymGCXD2vFss2H2d0VSJY=
+      folder: bin
+      artifact: CeCe
+      on:
+          branch: master
+          DEPLOY: On
 
 # ######################################################################### #
