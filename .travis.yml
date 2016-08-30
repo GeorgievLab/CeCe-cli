@@ -95,6 +95,11 @@ after_success:
     - GTEST_COLOR=1 ctest --verbose
     - popd
 
+before_deploy:
+    - pushd build
+    - cpack -G TGZ
+    - popd
+
 notifications:
     slack:
         secure: "Ea08dt4n5FNh881ZI+6A8auP9/QHjikCJMfQmJKcwL+/J+rIpmHRu/LkwfSy6BpeadX71JE3oQTokHz0fod71tAP6HDpaT+CStG2Bk0Z+499bl3EZkWM2AxaKTxn1W8U0kz8zv66YYai0b/YoBKPxyb7dA4dUv6oK9KrQL3Z6Xx+YiWM/XvDY9LBEb4lr0U0MMH4XAx+KJrGUEiGakLMwLh1pxs4rI1pG4namEkjqPAkornkvhfQIt15BP+tGoehvmiX6YCsDDSWUr1ZbWxicSXNb00CqkaopB0q0sx8Z63AjewljBUJrqbYe3kWMsAofAiDgjnpknhnFLYZQ4K9Vtl2aCi+S10IStFwCgqeM1QDiwGCrXpMfYzC6MkBEXCUQiquzYLNukdI0l/oGqnobSYZSzv5RY++EyaHhnM+MQEhYkf0nvAeXPjnzS8jHUswhJ3hLtznAfqBv3w1SvqhBWd5HebensdgDU8KOFR4h1PwSsq9fwzHzCZzjB0yDIbL2wzulbsx/7dz+x5RrrzgQbBc7z5Tjx7A0aA/A9r/7UoRRM7dZui10e9md45e12X8rrTuEBf4zXgpW9Ddt5qEFLxgqbgJI/XuGpKNgrmMSSy6C3r4TrXUWhG20Fu5g5d7lPMFC01ZQP2M8UJL6kzYlnhljjH38tgTeylwL2vsaWo="
