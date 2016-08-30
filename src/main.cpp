@@ -138,16 +138,16 @@ void terminate_simulation(int param)
  *
  * @param directories Plugin directories.
  */
-[[noreturn]] static void printPlugins(DynamicArray<FilePath> directories) noexcept
+[[noreturn]] static void printPlugins(const DynamicArray<FilePath>& directories) noexcept
 {
     plugin::Manager manager;
-    manager.addDirectories(std::move(directories));
+    manager.addDirectories(directories);
 
     std::cout <<
         "Plugins directories:\n";
 
     for (auto name : manager.getDirectories())
-        std::cout << "    " << name << "\n";
+        std::cout << "  " << name << "\n";
 
     std::cout << std::endl;
 
@@ -155,7 +155,82 @@ void terminate_simulation(int param)
         "Plugins:\n";
 
     for (auto name : manager.getNames())
-        std::cout << "    " << name << "\n";
+        std::cout << "  " << name << "\n";
+
+    std::cout << std::endl;
+
+    exit(1);
+}
+
+/* ************************************************************************ */
+
+/**
+ * @brief Prints information about plugin.
+ *
+ * @param directories Plugin directories.
+ * @param plugin      Plugin name.
+ */
+[[noreturn]] static void printPlugin(const DynamicArray<FilePath>& directories, const String& plugin)
+{
+    plugin::Manager manager;
+    manager.addDirectories(directories);
+    manager.loadAll();
+
+    std::cout << "Plugin: " << plugin << "\n";
+
+    // Get API
+    auto api = manager.getApi(plugin);
+
+    if (!api)
+        throw RuntimeException("Plugin not found: " + plugin);
+
+    auto rep = manager.getRepository().get(api);
+
+    auto loaders  = rep->getLoaderFactoryManager().getNames();
+    auto inits    = rep->getInitFactoryManager().getNames();
+    auto modules  = rep->getModuleFactoryManager().getNames();
+    auto objects  = rep->getObjectFactoryManager().getNames();
+    auto programs = rep->getProgramFactoryManager().getNames();
+
+    if (!loaders.empty())
+    {
+        std::cout << "\n Loaders\n";
+
+        for (const auto& loader : loaders)
+            std::cout << "  - " << loader << "\n";
+    }
+
+    if (!inits.empty())
+    {
+        std::cout << "\n Initializers\n";
+
+        for (const auto& init : inits)
+            std::cout << "  - " << init << "\n";
+    }
+
+    if (!modules.empty())
+    {
+        std::cout << "\n Modules\n";
+
+        for (const auto& module : modules)
+            std::cout << "  - " << module << "\n";
+    }
+
+    if (!objects.empty())
+    {
+        std::cout << "\n Objects\n";
+
+        for (const auto& object : objects)
+            std::cout << "  - " << object << "\n";
+    }
+
+    if (!programs.empty())
+    {
+        std::cout << "\n Programs\n";
+
+        for (const auto& program : programs)
+            std::cout << "  - " << program << "\n";
+    }
 
     std::cout << std::endl;
 
@@ -206,7 +281,10 @@ cece::cli::Arguments processArguments(int argc, char** argv)
         printHelp(argv[0]);
 
     if (args.printPlugins)
-        printPlugins(std::move(args.pluginsDirectories));
+        printPlugins(args.pluginsDirectories);
+
+    if (!args.printPlugin.empty())
+        printPlugin(args.pluginsDirectories, args.printPlugin);
 
     if (args.simulationFile.isEmpty())
         throw InvalidArgumentException("Missing simulation file");

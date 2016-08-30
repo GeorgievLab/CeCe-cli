@@ -69,6 +69,9 @@ struct Arguments
     /// Print help.
     bool printHelp = false;
 
+    /// Print plugin information.
+    String printPlugin;
+
     /// A list of plugin directories.
     DynamicArray<FilePath> pluginsDirectories;
 

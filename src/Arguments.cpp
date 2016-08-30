@@ -118,9 +118,17 @@ Arguments Arguments::parse(int argc, char** argv)
             {
                 args.printPlugins = true;
             }
+            else if (arg == "--plugin")
+            {
+                args.printPlugin = argv[++i];
+            }
             else if (arg == "--help")
             {
                 args.printHelp = true;
+            }
+            else
+            {
+                Log::warning("Unsupported option `", arg.getData(), "` - ignoring");
             }
         }
         else if (args.simulationFile.isEmpty())
