@@ -91,7 +91,7 @@ deploy:
       publish: true
       override: true
       on:
-#          branch: master
+          branch: master
           DEPLOY: On
 
 # ######################################################################### #
