@@ -1,0 +1,14 @@
+{
+    "package": {
+        "name": "CeCe-cli",
+        "repo": "CeCe-nighty",
+        "subject": "georgievlab"
+    },
+    "version": {
+        "name": "@PROJECT_VERSION@"
+    },
+    "files": [
+        {"includePattern": "build/(CeCe-cli.*.tar.gz)", "uploadPattern":"\$1"}
+    ],
+    "publish": true
+}

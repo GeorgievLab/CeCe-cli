@@ -288,6 +288,9 @@ if (NOT GIT_TAG AND GIT_COMMIT AND GIT_BRANCH)
     set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CMAKE_SYSTEM_NAME}-${GIT_BRANCH}-${COMMIT}")
 endif ()
 
+# Configure file for travis-ci -> bintray deployment
+configure_file(resources/descriptor.json.in descriptor.json @ONLY)
+
 # ######################################################################### #
 
 set(CPACK_STRIP_FILES "${INSTALL_DIR_RUNTIME}/${CMAKE_PROJECT_NAME}")
