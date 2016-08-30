@@ -148,11 +148,6 @@ configure_file(src/config.hpp.in config.hpp)
 # Configure version file
 configure_file(src/version.hpp.in version.hpp)
 
-if (APPLE)
-    set(SRCS ${SRCS} icons/CeCe.icns)
-    set_source_files_properties(icons/CeCe.icns PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
-endif ()
-
 if (WIN32)
     string(TIMESTAMP BUILD_DATE "%Y-%m-%d" UTC)
     configure_file(src/version.rc version.rc @ONLY NEWLINE_STYLE WIN32)
