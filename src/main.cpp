@@ -188,50 +188,58 @@ void terminate_simulation(int param)
 
     auto rep = manager.getRepository().get(api);
 
-    auto loaders  = rep->getLoaderFactoryManager().getNames();
-    auto inits    = rep->getInitFactoryManager().getNames();
-    auto modules  = rep->getModuleFactoryManager().getNames();
-    auto objects  = rep->getObjectFactoryManager().getNames();
-    auto programs = rep->getProgramFactoryManager().getNames();
 
-    if (!loaders.empty())
+    if (rep)
     {
-        std::cout << "\n Loaders\n";
+        auto loaders  = rep->getLoaderFactoryManager().getNames();
+        auto inits    = rep->getInitFactoryManager().getNames();
+        auto modules  = rep->getModuleFactoryManager().getNames();
+        auto objects  = rep->getObjectFactoryManager().getNames();
+        auto programs = rep->getProgramFactoryManager().getNames();
 
-        for (const auto& loader : loaders)
-            std::cout << "  - " << loader << "\n";
+        if (!loaders.empty())
+        {
+            std::cout << "\n Loaders\n";
+
+            for (const auto& loader : loaders)
+                std::cout << "  - " << loader << "\n";
+        }
+
+        if (!inits.empty())
+        {
+            std::cout << "\n Initializers\n";
+
+            for (const auto& init : inits)
+                std::cout << "  - " << init << "\n";
+        }
+
+        if (!modules.empty())
+        {
+            std::cout << "\n Modules\n";
+
+            for (const auto& module : modules)
+                std::cout << "  - " << module << "\n";
+        }
+
+        if (!objects.empty())
+        {
+            std::cout << "\n Objects\n";
+
+            for (const auto& object : objects)
+                std::cout << "  - " << object << "\n";
+        }
+
+        if (!programs.empty())
+        {
+            std::cout << "\n Programs\n";
+
+            for (const auto& program : programs)
+                std::cout << "  - " << program << "\n";
+        }
     }
-
-    if (!inits.empty())
+    else
     {
-        std::cout << "\n Initializers\n";
-
-        for (const auto& init : inits)
-            std::cout << "  - " << init << "\n";
-    }
-
-    if (!modules.empty())
-    {
-        std::cout << "\n Modules\n";
-
-        for (const auto& module : modules)
-            std::cout << "  - " << module << "\n";
-    }
-
-    if (!objects.empty())
-    {
-        std::cout << "\n Objects\n";
-
-        for (const auto& object : objects)
-            std::cout << "  - " << object << "\n";
-    }
-
-    if (!programs.empty())
-    {
-        std::cout << "\n Programs\n";
-
-        for (const auto& program : programs)
-            std::cout << "  - " << program << "\n";
+        std::cout << "\n Plugin is empty!\n";
     }
 
     std::cout << std::endl;
