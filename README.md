@@ -32,9 +32,3 @@ cmake --build .
 
 * C++11 compiler - GCC, Clang, MSVC.
 * [CMake](https://cmake.org) v3.1 or newer.
-
-### Optional requirements
-
-* [libpng](http://libpng.org/pub/png/libpng.html) - image capturing.
-* [zlib](http://zlib.net) - required by libpng.
-* [GLFW3](http://www.glfw.org) - Simulation visualization.
