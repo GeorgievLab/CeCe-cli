@@ -12,7 +12,7 @@ This repository contains only CLI application, for whole project see [https://gi
 
 Building from source code is done by CMake (see Requirements).
 
-### Linux & OSX
+### Linux & macOS
 
 ```bash
 $ mkdir build && cd build
