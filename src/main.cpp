@@ -23,17 +23,19 @@
 /*                                                                          */
 /* ************************************************************************ */
 
-// CeCe config
-#include "cece/config.hpp"
-
-/* ************************************************************************ */
-
 // C++
 #include <iostream>
 #include <csignal>
 #include <fstream>
 
+// Win32
+#ifdef _WIN32
+#include <windows.h>
+#undef TRANSPARENT
+#endif
+
 // CeCe
+#include "cece/config.hpp"
 #include "cece/core/Log.hpp"
 #include "cece/core/Atomic.hpp"
 #include "cece/core/Exception.hpp"
@@ -66,10 +68,17 @@ AtomicBool g_simulate{true};
  *
  * @param param
  */
-void terminate_simulation(int param)
+#ifdef _WIN32
+BOOL terminate_simulation(DWORD param) noexcept
+#else
+void terminate_simulation(int param) noexcept
+#endif
 {
     std::cerr << "Terminating simulation" << std::endl;
     g_simulate = false;
+#ifdef _WIN32
+    return (param == CTRL_CLOSE_EVENT);
+#endif
 }
 
 /* ************************************************************************ */
@@ -316,9 +325,18 @@ cece::cli::Arguments processArguments(int argc, char** argv)
  */
 int main(int argc, char** argv)
 {
+#ifdef _WIN32
+    // Set Ctrl-C handler
+    if (SetConsoleCtrlHandler((PHANDLER_ROUTINE) terminate_simulation, TRUE) == 0)
+    {
+        Log::error("Unable to register console handler");
+        return 1;
+    }
+#else
     // Install signal handler
     signal(SIGTERM, terminate_simulation);
     signal(SIGINT, terminate_simulation);
+#endif
 
     std::ofstream time_file;
 
