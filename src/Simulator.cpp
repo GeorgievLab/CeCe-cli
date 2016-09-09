@@ -225,7 +225,6 @@ Simulator::Simulator(const Arguments& args)
 
     // Create plugins context
     plugin::Context context(manager.getRepository());
-    context.importPlugin("xml");
 
     // Create simulation
     m_simulator.setSimulation(context.createSimulation(m_simulationFile, &args.parameters));
