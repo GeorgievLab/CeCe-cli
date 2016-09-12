@@ -261,9 +261,9 @@ if (GIT_FOUND)
     )
 endif ()
 
-message("TAG: ${GIT_TAG}")
-message("COMMIT: ${GIT_COMMIT}")
-message("BRANCH: ${GIT_BRANCH}")
+message(STATUS "TAG: ${GIT_TAG}")
+message(STATUS "COMMIT: ${GIT_COMMIT}")
+message(STATUS "BRANCH: ${GIT_BRANCH}")
 
 if (NOT GIT_TAG AND GIT_COMMIT AND GIT_BRANCH)
     string(SUBSTRING "${GIT_COMMIT}" 0 7 COMMIT)

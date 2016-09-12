@@ -52,9 +52,7 @@
 
 #ifdef CECE_RENDER
 #  include "cece/render/Context.hpp"
-#  include "cece/render/PhysicsDebugger.hpp"
 #  include "cece/simulator/Visualization.hpp"
-#  include "cece/simulator/ConverterBox2D.hpp"
 #endif
 
 // CLI
@@ -68,13 +66,6 @@ namespace cli {
 /* ************************************************************************ */
 
 namespace {
-
-/* ************************************************************************ */
-
-#ifdef CECE_RENDER
-/// Physics debugger
-render::PhysicsDebugger g_physicsDebugger;
-#endif
 
 /* ************************************************************************ */
 
@@ -844,15 +835,6 @@ void Simulator::initScene()
 {
     // Get simulation
     auto simulation = m_simulator.getSimulation();
-
-    g_physicsDebugger.SetFlags(
-        render::PhysicsDebugger::e_shapeBit |
-        render::PhysicsDebugger::e_centerOfMassBit |
-        render::PhysicsDebugger::e_jointBit
-    );
-    simulation->getWorld().SetDebugDraw(&g_physicsDebugger);
-
-    g_physicsDebugger.setScale(1.0 / simulator::ConverterBox2D::getInstance().getLengthCoefficient());
 
     // Initialize simulator
     m_simulator.drawInit(simulation->getVisualization().getBackgroundColor());
