@@ -272,9 +272,15 @@ endif ()
 
 # Configure file for travis-ci -> bintray deployment
 if (UNIX AND NOT APPLE)
-    set(PLATFORM "linux")
+    set(BINTRAY_PLATFORM "linux")
 elseif (APPLE)
-    set(PLATFORM "macos")
+    set(BINTRAY_PLATFORM "macos")
+endif ()
+
+if (NOT GIT_TAG AND GIT_COMMIT AND GIT_BRANCH)
+    set(BINTRAY_VERSION ${PROJECT_VERSION}-${COMMIT})
+else ()
+    set(BINTRAY_VERSION ${PROJECT_VERSION})
 endif ()
 
 configure_file(resources/descriptor.json.in descriptor.json @ONLY)

@@ -1,11 +1,11 @@
 {
     "package": {
-        "name": "@PLATFORM@",
+        "name": "@BINTRAY_PLATFORM@",
         "repo": "CeCe-cli-nighty",
         "subject": "georgievlab"
     },
     "version": {
-        "name": "@PROJECT_VERSION@"
+        "name": "@BINTRAY_VERSION@"
     },
     "files": [
         {"includePattern": "build/(CeCe-cli.*.tar.gz)", "uploadPattern":"\$1"}

@@ -86,7 +86,6 @@ deploy:
           secure: iLOqXHWkZPY0aVN0pqYTyTqoD8+BMC0cT8rqAuPjoUd8BJSdTszxf1KKBau3VsVL
       subject: georgievlab
       repo: CeCe-cli-nighty
-      version: 0.6.0
       package: win64
       publish: true
       override: true
