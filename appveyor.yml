@@ -25,7 +25,7 @@
 
 os: Visual Studio 2015
 
-version: 0.6.0.{build}
+version: 0.6.0
 
 environment:
     matrix:
@@ -56,6 +56,17 @@ matrix:
 branches:
     except:
         - travis-ci
+
+init:
+    - ps: >-
+        if ($env:APPVEYOR_REPO_TAG -eq "true")
+        {
+            Update-AppveyorBuild -Version "$env:APPVEYOR_REPO_TAG_NAME"
+        }
+        else
+        {
+            Update-AppveyorBuild -Version "$env:APPVEYOR_BUILD_VERSION-$($env:APPVEYOR_REPO_COMMIT.substring(0,7))"
+        }
 
 install:
     - git submodule update --init --recursive
