@@ -274,7 +274,7 @@ endif ()
 if (UNIX AND NOT APPLE)
     set(BINTRAY_PLATFORM "linux")
 elseif (APPLE)
-    set(BINTRAY_PLATFORM "macos")
+    set(BINTRAY_PLATFORM "macOS")
 endif ()
 
 if (NOT GIT_TAG AND GIT_COMMIT AND GIT_BRANCH)
