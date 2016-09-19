@@ -272,7 +272,7 @@ endif ()
 
 # Configure file for travis-ci -> bintray deployment
 if (UNIX AND NOT APPLE)
-    set(BINTRAY_PLATFORM "linux")
+    set(BINTRAY_PLATFORM "linux-x64")
 elseif (APPLE)
     set(BINTRAY_PLATFORM "macOS")
 endif ()
