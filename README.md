@@ -8,6 +8,16 @@
 
 This repository contains only CLI application, for whole project see [https://github.com/GeorgievLab/CeCe](https://github.com/GeorgievLab/CeCe)
 
+## CI builds
+
+Prebuild packages of the lastest version on CI services (Travis-CI, Appveyor).
+
+| Platform    | Lastest |
+| ----------- | ------- |
+| Windows x64 | [ ![Download](https://api.bintray.com/packages/georgievlab/CeCe-cli-ci/win64/images/download.svg) ](https://bintray.com/georgievlab/CeCe-cli-ci/win64/_latestVersion) |
+| macOS/OSX   | [ ![Download](https://api.bintray.com/packages/georgievlab/CeCe-cli-ci/macOS/images/download.svg) ](https://bintray.com/georgievlab/CeCe-cli-ci/macOS/_latestVersion) |
+| Linux x64   | [ ![Download](https://api.bintray.com/packages/georgievlab/CeCe-cli-ci/linux/images/download.svg) ](https://bintray.com/georgievlab/CeCe-cli-ci/linux/_latestVersion) |
+
 ## Building from source
 
 Building from source code is done by CMake (see Requirements).
