@@ -16,7 +16,7 @@ Prebuild packages of the lastest version on CI services (Travis-CI, Appveyor).
 | ----------- | ------- |
 | Windows x64 | [ ![Download](https://api.bintray.com/packages/georgievlab/CeCe-cli-ci/win64/images/download.svg) ](https://bintray.com/georgievlab/CeCe-cli-ci/win64/_latestVersion) |
 | macOS/OSX   | [ ![Download](https://api.bintray.com/packages/georgievlab/CeCe-cli-ci/macOS/images/download.svg) ](https://bintray.com/georgievlab/CeCe-cli-ci/macOS/_latestVersion) |
-| Linux x64   | [ ![Download](https://api.bintray.com/packages/georgievlab/CeCe-cli-ci/linux/images/download.svg) ](https://bintray.com/georgievlab/CeCe-cli-ci/linux/_latestVersion) |
+| Linux x64   | [ ![Download](https://api.bintray.com/packages/georgievlab/CeCe-cli-ci/linux-x64/images/download.svg) ](https://bintray.com/georgievlab/CeCe-cli-ci/linux-x64/_latestVersion) |
 
 ## Building from source
 
