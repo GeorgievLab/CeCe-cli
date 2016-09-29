@@ -33,12 +33,14 @@ environment:
         - GENERATOR: Visual Studio 14 2015 Win64
           CECE_RENDER: On
           DEPLOY: On
+          PACKAGE: win64
         - GENERATOR: Visual Studio 14 2015 Win64
           CECE_RENDER: Off
           DEPLOY: Off
         - GENERATOR: Visual Studio 14 2015
           CECE_RENDER: On
-          DEPLOY: Off
+          DEPLOY: On
+          PACKAGE: win32
         - GENERATOR: Visual Studio 14 2015
           CECE_RENDER: Off
           DEPLOY: Off
@@ -98,7 +100,7 @@ deploy:
           secure: iLOqXHWkZPY0aVN0pqYTyTqoD8+BMC0cT8rqAuPjoUd8BJSdTszxf1KKBau3VsVL
       subject: georgievlab
       repo: CeCe-cli-ci
-      package: win64
+      package: $(PACKAGE)
       publish: true
       override: true
       on:
