@@ -647,18 +647,30 @@ void Simulator::onMouseMove(double xpos, double ypos) noexcept
 #ifdef CECE_RENDER
 String Simulator::getTitle() const noexcept
 {
-    String title =
-        "CeCe "
-        "[" + m_simulationFile.getFilename() + "] "
-        "(" + toString(getSimulation()->getIteration())
-    ;
+    std::array<char, 1024> buffer;
+    std::size_t size = 0;
 
     if (!getSimulation()->hasUnlimitedIterations())
-        title += "/" + toString(getSimulation()->getIterations());
+    {
+        size = snprintf(buffer.data(), buffer.size(),
+            "CeCe [%s] (%lu/%lu, %.3fs)",
+            m_simulationFile.getFilename().c_str(),
+            getSimulation()->getIteration(),
+            getSimulation()->getIterations(),
+            getSimulation()->getTotalTime().value()
+        );
+    }
+    else
+    {
+        size = snprintf(buffer.data(), buffer.size(),
+            "CeCe [%s] (%lu, %.3fs)",
+            m_simulationFile.getFilename().c_str(),
+            getSimulation()->getIteration(),
+            getSimulation()->getTotalTime().value()
+        );
+    }
 
-    title += ")";
-
-    return title;
+    return String(buffer.data(), size);
 }
 #endif
 
